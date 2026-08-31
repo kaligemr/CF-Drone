@@ -3,7 +3,7 @@ ESP32无人机飞控固件
 # 硬件资料
 
 ## 适配硬件
-已适配ESP32/ESP32-S3/ESP32-C3
+已适配ESP32/ESP32-S3
 支持6500/9250姿态传感器
 
 完美适配琛光E1系列无人机，嘉立创开源平台工程链接：https://oshwhub.com/songge8/project_qqqyfdkm
