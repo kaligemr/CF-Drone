@@ -10,7 +10,7 @@ float accWeight = 0.003;
 
 // ============== 水平修正 P 项 ==============
 float levelWeight = 0;  // 水平修正 P 项权重（关闭，无法区分陀螺温漂与机械不对称时会起负作用）
-float levelMaxTilt = radians(30); // rad, level correction fades out at this tilt angle (matches TILT_MAX)
+float levelMaxTilt = radians(30); // 径向，在此倾斜角度下，水平校正逐渐消失（与 TILT_MAX 匹配） rad, level correction fades out at this tilt angle (matches TILT_MAX)
 // 摇杆感知门控阈值
 // 当飞手摇杆偏转量（横滚或俯仰取最大值，范围 0~1）超过此阈值时，
 // applyLevel 的修正权重线性衰减至 0，避免与 PID 积分项产生耦合导致松杆后漂移。
@@ -31,7 +31,7 @@ float levelBiasGain = 0;  // Mahony I 项增益（关闭，无法区分陀螺温
 Vector levelGyroBias(0, 0, 0); // 由 applyLevel() 估计的虚拟陀螺偏置（rad/s）
 
 extern float controlRoll, controlPitch; // 飞手摇杆输入，定义于 CF-Drone.ino
-LowPassFilter<Vector> ratesFilter(0.2); // cutoff frequency ~ 40 Hz
+LowPassFilter<Vector> ratesFilter(0.2); // 截止频率约 40 Hz
 
 void estimate() {
 	applyGyro();
