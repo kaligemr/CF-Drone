@@ -47,10 +47,10 @@ void readIMU() {
 	imu.getGyro(gyro.x, gyro.y, gyro.z);
 	imu.getAccel(acc.x, acc.y, acc.z);
 	calibrateGyroOnce();
-	// apply scale and bias
+	// 应用缩放和偏移
 	acc = (acc - accBias) / accScale;
 	gyro = gyro - gyroBias;
-	// rotate to body frame using imuRotation Euler angles
+	// 使用 IMU 旋转欧拉角旋转到车身坐标系
 	// 旋转四元数缓存：imuRotation 为运行时常量（仅参数变更时改变），
 	// 缓存后每帧仅做 3 次浮点比较，消除原先每帧 6 次 sinf/cosf 调用。
 	// 参数更新后首次 readIMU() 调用自动重建缓存，延迟仅 1 帧（~1 ms）。
@@ -68,7 +68,7 @@ void readIMU() {
 
 void calibrateGyroOnce() {
 	static Delay landedDelay(2);
-	if (!landedDelay.update(landed)) return; // calibrate only if definitely stationary
+	if (!landedDelay.update(landed)) return; // 仅在确定静止时进行校验
 
 	gyroBias = gyroBiasFilter.update(gyro);
 }
@@ -145,22 +145,22 @@ void calibrateAccelOnce() {
 }
 
 void printIMUCalibration() {
-	print("gyro bias: %f %f %f\n", gyroBias.x, gyroBias.y, gyroBias.z);
-	print("accel bias: %f %f %f\n", accBias.x, accBias.y, accBias.z);
-	print("accel scale: %f %f %f\n", accScale.x, accScale.y, accScale.z);
+	print("陀螺仪偏置: %f %f %f\n", gyroBias.x, gyroBias.y, gyroBias.z);
+	print("加速度计偏置: %f %f %f\n", accBias.x, accBias.y, accBias.z);
+	print("加速度计比例因子: %f %f %f\n", accScale.x, accScale.y, accScale.z);
 }
 
 void printIMUInfo() {
-	imu.status() ? print("status: ERROR %d\n", imu.status()) : print("status: OK\n");
-	print("model: %s\n", imu.getModel());
-	print("who am I: 0x%02X\n", imu.whoAmI());
-	print("rate: %.0f\n", loopRate);
-	print("gyro: %f %f %f\n", gyro.x, gyro.y, gyro.z);
-	print("acc: %f %f %f\n", acc.x, acc.y, acc.z);
+	imu.status() ? print("状态: 错误 %d\n", imu.status()) : print("状态: OK\n");
+	print("型号: %s\n", imu.getModel());
+	print("我是谁: 0x%02X\n", imu.whoAmI());
+	print("循环率: %.0f\n", loopRate);
+	print("陀螺仪: %f %f %f\n", gyro.x, gyro.y, gyro.z);
+	print("加速度计: %f %f %f\n", acc.x, acc.y, acc.z);
 	imu.waitForData();
 	Vector rawGyro, rawAcc;
 	imu.getGyro(rawGyro.x, rawGyro.y, rawGyro.z);
 	imu.getAccel(rawAcc.x, rawAcc.y, rawAcc.z);
-	print("raw gyro: %f %f %f\n", rawGyro.x, rawGyro.y, rawGyro.z);
-	print("raw acc: %f %f %f\n", rawAcc.x, rawAcc.y, rawAcc.z);
+	print("原始陀螺仪: %f %f %f\n", rawGyro.x, rawGyro.y, rawGyro.z);
+	print("原始加速度计: %f %f %f\n", rawAcc.x, rawAcc.y, rawAcc.z);
 }

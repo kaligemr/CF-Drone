@@ -37,7 +37,7 @@ float wrapAngle(float angle) {
 	return angle;
 }
 
-// Disable reset on low voltage
+// 通过空格修剪和分割字符串
 void disableBrownOut() {
 #ifdef CONFIG_IDF_TARGET_ESP32
 	REG_CLR_BIT(RTC_CNTL_BROWN_OUT_REG, RTC_CNTL_BROWN_OUT_ENA);
@@ -52,11 +52,11 @@ void splitString(String& str, String& token0, String& token1, String& token2) {
 	char chars[str.length() + 1];
 	str.toCharArray(chars, str.length() + 1);
 	token0 = strtok(chars, " ");
-	token1 = strtok(NULL, " "); // String(NULL) creates empty string
+	token1 = strtok(NULL, " "); // String(NULL) 创建空字符串
 	token2 = strtok(NULL, "");
 }
 
-// Rate limiter
+// 速率限制器
 class Rate {
 public:
 	float rate;
@@ -72,7 +72,7 @@ public:
 	}
 };
 
-// Delay filter for boolean signals - ensures the signal is on for at least 'delay' seconds
+// 布尔信号延迟滤波器——确保信号至少持续“延迟”秒
 class Delay {
 public:
 	float delay;

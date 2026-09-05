@@ -49,25 +49,25 @@ int receiveWiFi(uint8_t *buf, int len) {
 
 void printWiFiInfo() {
 	if (WiFi.getMode() == WIFI_MODE_AP) {
-		print("Mode: Access Point (AP)\n");
+		print("模式: 热点 (AP)\n");
 		print("MAC: %s\n", WiFi.softAPmacAddress().c_str());
 		print("SSID: %s\n", WiFi.softAPSSID().c_str());
-		print("Password: ***\n");
-		print("Clients: %d\n", WiFi.softAPgetStationNum());
+		print("密码: ***\n");
+		print("客户端: %d\n", WiFi.softAPgetStationNum());
 		print("IP: %s\n", WiFi.softAPIP().toString().c_str());
 	} else if (WiFi.getMode() == WIFI_MODE_STA) {
-		print("Mode: Client (STA)\n");
-		print("Connected: %d\n", WiFi.isConnected());
+		print("模式: 作为客户端 (STA)\n");
+		print("已连接: %d\n", WiFi.isConnected());
 		print("MAC: %s\n", WiFi.macAddress().c_str());
 		print("SSID: %s\n", WiFi.SSID().c_str());
-		print("Password: ***\n");
+		print("密码: ***\n");
 		print("IP: %s\n", WiFi.localIP().toString().c_str());
 	} else {
-		print("Mode: Disabled\n");
+		print("模式: 禁用\n");
 		return;
 	}
-	print("Remote IP: %s\n", udpRemoteIP.toString().c_str());
-	print("MAVLink connected: %d\n", mavlinkConnected);
+	print("服务端IP: %s\n", udpRemoteIP.toString().c_str());
+	print("MAVLink已连接: %d\n", mavlinkConnected);
 }
 
 void configWiFi(bool ap, const char *ssid, const char *password) {
