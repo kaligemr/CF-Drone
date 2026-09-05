@@ -10,4 +10,4 @@ ESP32无人机飞控固件
 
 完美适配琛光E1系列无人机，嘉立创开源平台工程链接：https://oshwhub.com/songge8/project_qqqyfdkm
 
-更新日志内容见 NOTICE
+更新日志内容见 [NOTICE](https://github.com/kaligemr/CF-Drone/blob/main/NOTICE)
