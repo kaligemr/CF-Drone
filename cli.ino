@@ -54,6 +54,7 @@ void print(const char* format, ...) {
 	// 固定 1000 字节缓冲区 + vsnprintf 会静默截断超长内容（例如开机菜单 motd），且截断后连换行符都可能丢失，
 	// 导致后续打印内容拼接到同一行。这里先用栈上小缓冲区尝试格式化，若实际所需长度超过缓冲区，
 	// 再按精确所需大小临时用堆内存重新格式化，避免任何长度的内容被静默截断。
+	// 此函数无需理会，直接调用即可
 	char stackBuf[512];
 	va_list args, argsCopy;
 	va_start(args, format);
@@ -86,6 +87,7 @@ void print(const char* format, ...) {
 }
 
 void pause(float duration) {
+	/** @param duration 暂停指定时长，期间持续刷新IMU/姿态和处理输入，保持系统响应，单位为秒 */
 	float start = t;
 	while (t - start < duration) {
 		readIMU(); // 长时间阻塞命令（ca/cr）期间也需要持续刷新IMU/姿态，否则打印信息会定格在进入pause前的旧值
@@ -103,7 +105,11 @@ void pause(float duration) {
 }
 
 void doCommand(String str, bool echo = false) {
-	// parse command
+	/** @brief 处理CLI命令
+	 *  @param str 输入的命令字符串
+	 *  @param echo 是否回显命令
+	 */
+	// 解析命令字符串
 	String command, arg0, arg1;
 	splitString(str, command, arg0, arg1);
 	if (command.isEmpty()) return;
@@ -115,96 +121,132 @@ void doCommand(String str, bool echo = false) {
 
 	command.toLowerCase();
 
-	// execute command
+	// 执行命令
 	if (command == "help" || command == "motd") {
+		/** 打印开机信息 */
 		print("%s\n", motd);
 	} else if (command == "p" && arg0 == "") {
+		/** 打印所有参数 */
 		printParameters();
 	} else if (command == "p" && arg0 != "" && arg1 == "") {
-		print("%s = %g\n", arg0.c_str(), getParameter(arg0.c_str()));
+		/** 打印指定参数的值 */
+		print("%s的值为%g\n", arg0.c_str(), getParameter(arg0.c_str()));
 	} else if (command == "p") {
+		/** 设置指定参数的值 */
 		bool success = setParameter(arg0.c_str(), arg1.toFloat());
 		if (success) {
-			print("%s = %g\n", arg0.c_str(), getParameter(arg0.c_str()));
+			print("%s已成功设置为%g\n", arg0.c_str(), getParameter(arg0.c_str()));
 		} else {
-			print("Parameter not found: %s\n", arg0.c_str());
+			print("未找到参数: '%s', 请执行p命令查看可用参数\n", arg0.c_str());
 		}
 	} else if (command == "preset") {
+		/** 重置所有参数为默认值 */
 		resetParameters();
+		print("所有参数已重置为默认值\n");
 	} else if (command == "time") {
-		print("Time: %f\n", t);
-		print("Loop rate: %.0f\n", loopRate);
-		print("dt: %f\n", dt);
+		/** 打印时间信息 */
+		print("当前运行时间: %f 秒\n", t);
+		print("主循环频率: %.0f 帧\n", loopRate);
+		print("最近一帧耗时: %f 秒\n", dt);
 	} else if (command == "ps") {
+		/** 打印姿态信息 */
 		Vector a = attitude.toEuler();
-		print("roll: %f pitch: %f yaw: %f\n", degrees(a.x), degrees(a.y), degrees(a.z));
+		print("横滚角x: %f  俯仰角y: %f 偏航角z: %f 单位：度\n", degrees(a.x), degrees(a.y), degrees(a.z));
 	} else if (command == "psq") {
-		print("qw: %f qx: %f qy: %f qz: %f\n", attitude.w, attitude.x, attitude.y, attitude.z);
+		/** 打印四元数原始值 */
+		print("四元数原始值：qw: %f qx: %f qy: %f qz: %f\n", attitude.w, attitude.x, attitude.y, attitude.z);
 	} else if (command == "imu") {
+		/** 打印IMU信息 */
 		printIMUInfo();
 		printIMUCalibration();
-		print("landed: %d\n", landed);
+		print("落地状态: %d\n", landed);
 	} else if (command == "arm") {
+		/** 解锁电机 */
 		extern bool imuOK;
 		if (!imuOK) { print("IMU故障，禁止解锁！\n"); }
-		else armed = true;
-	} else if (command == "disarm") {
-		armed = false;
-	} else if (command == "raw") {
-		mode = RAW;
-	} else if (command == "stab") {
-		mode = STAB;
-	} else if (command == "acro") {
-		mode = ACRO;
-	} else if (command == "auto") {
-		mode = AUTO;
-	} else if (command == "rc") {
-		print("channels: ");
-		for (int i = 0; i < 16; i++) {
-			print("%u ", channels[i]);
+		else {armed = true;
+		print("电机已解锁\n");
 		}
-		print("\nroll: %g pitch: %g yaw: %g throttle: %g mode: %g\n",
+	} else if (command == "disarm") {
+		/** 锁定电机 */
+		armed = false;
+		print("电机已锁定\n");
+	} else if (command == "raw") {
+		/** 切换为手动模式 */
+		mode = RAW;
+		print("飞控模式已切换为 手动模式\n");
+	} else if (command == "stab") {
+		/** 切换为自稳模式 */
+		mode = STAB;
+		print("飞控模式已切换为 自稳模式\n");
+	} else if (command == "acro") {
+		/** 切换为特技模式 */
+		mode = ACRO;
+		print("飞控模式已切换为 特技模式\n");
+	} else if (command == "auto") {
+		/** 切换为自动模式 */
+		mode = AUTO;
+		print("飞控模式已切换为自动模式\n");
+	} else if (command == "rc") {
+		/** 打印遥控器通道信息 */
+		print("通道: ");
+		for (int i = 0; i < 16; i++) {
+			print("%u, ", channels[i]);
+		}
+		print("\n横滚角x: %g  俯仰角y: %g  偏航角z: %g  油门: %g  模式: %g\n",
 			controlRoll, controlPitch, controlYaw, controlThrottle, controlMode);
-		print("time: %.1f\n", controlTime);
-		print("mode: %s\n", getModeName());
-		print("armed: %d\n", armed);
+		print("时间: %.1f\n", controlTime);
+		print("飞控模式: %s\n", getModeName());
+		print("电机解锁状态: %d\n", armed);
 	} else if (command == "wifi") {
+		/** 打印WiFi信息 */
 #if WIFI_ENABLED
 		printWiFiInfo();
 #endif
 	} else if (command == "ap") {
+		/** 配置为WiFi热点模式，arg0为SSID，arg1为密码 */
 #if WIFI_ENABLED
 		configWiFi(true, arg0.c_str(), arg1.c_str());
 #endif
 	} else if (command == "sta") {
+		/** 配置为WiFi客户端模式，arg0为SSID，arg1为密码 */
 #if WIFI_ENABLED
 		configWiFi(false, arg0.c_str(), arg1.c_str());
 #endif
 	} else if (command == "mot") {
-		print("front-right %g front-left %g rear-right %g rear-left %g\n",
+		/** 打印电机信息 */
+		print("前右 %g 前左 %g 后右 %g 后左 %g\n",
 			motors[MOTOR_FRONT_RIGHT], motors[MOTOR_FRONT_LEFT], motors[MOTOR_REAR_RIGHT], motors[MOTOR_REAR_LEFT]);
 	} else if (command == "log") {
+		/** 打印日志信息 */
 		printLogHeader();
 		if (arg0 == "dump") printLogData();
 	} else if (command == "cr") {
+		/** 校准遥控器 */
 		calibrateRC();
 	} else if (command == "ca") {
+		/** 校准加速度计 */
 		calibrateAccel();
 	} else if (command == "mfr") {
+		/** 测试前右电机（马达不受算法影响运转，为了安全不要装桨叶！！！) */
 		testMotor(MOTOR_FRONT_RIGHT);
 	} else if (command == "mfl") {
+		/** 测试前左电机（马达不受算法影响运转，为了安全不要装桨叶！！！） */
 		testMotor(MOTOR_FRONT_LEFT);
 	} else if (command == "mrr") {
+		/** 测试后右电机（马达不受算法影响运转，为了安全不要装桨叶！！！） */
 		testMotor(MOTOR_REAR_RIGHT);
 	} else if (command == "mrl") {
+		/** 测试后左电机（马达不受算法影响运转，为了安全不要装桨叶！！！） */
 		testMotor(MOTOR_REAR_LEFT);
 	} else if (command == "sys") {
+		/** 打印系统信息 */
 #ifdef ESP32
-		print("Chip: %s\n", ESP.getChipModel());
-		print("Temperature: %.1f °C\n", temperatureRead());
-		print("Free heap: %d\n", ESP.getFreeHeap());
+		print("芯片: %s\n", ESP.getChipModel());
+		print("芯片温度: %.1f °C\n", temperatureRead());
+		print("剩余内存: %d\n", ESP.getFreeHeap());
 		// Print tasks table
-		print("Num  Task                Stack  Prio  Core  CPU%%\n");
+		print("序号  名称               剩余栈  优先级  核心  CPU%%\n");
 		int taskCount = uxTaskGetNumberOfTasks();
 		TaskStatus_t *systemState = new TaskStatus_t[taskCount];
 		uint32_t totalRunTime;
@@ -218,16 +260,19 @@ void doCommand(String str, bool echo = false) {
 		delete[] systemState;
 #endif
 	} else if (command == "reset") {
+		/** 重置姿态 */
 		attitude = Quaternion();
 		gyroBiasFilter.reset();
 	} else if (command == "reboot") {
+		/** 软重启飞控系统 */
 		ESP.restart();
 	} else {
-		print("Invalid command: %s\n", command.c_str());
+		print("无效命令: '%s', 请执行help命令查看可用命令\n", command.c_str());
 	}
 }
 
 void handleInput() {
+	/** @brief 处理串口输入命令 */
 	static bool showMotd = true;
 	static String input;
 
