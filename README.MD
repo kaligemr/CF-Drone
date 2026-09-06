@@ -17,9 +17,12 @@
 ### 声明​
 本仓库基于 GPLv3 许可证分发。上游仓库[songge8/CF-Drone](https://github.com/songge8/CF-Drone)可能参考或衍生自[okalachev/flix](https://github.com/okalachev/flix)，据[okalachev/flix 维护者](https://github.com/okalachev)在 [songge8/CF-Drone/issues/1](https://github.com/songge8/CF-Drone/issues/1) 中的指控，上游仓库未获其明确授权，本仓库无法核实其真实性，亦不就此表态。本仓库作者不对两个之间的版权关系作任何保证，也不确定上游仓库是否存在此行为，仅在此说明，阐述客观事实，请各位自行分辨，尊重作者的版权和劳动成果。
 
-##English:
+## English:
 ## About licenses and copyrights
 - SPDX-License-Identifier: GPL-3.0-or-later
 - This project adheres to GPL v3 or later, forked from [songge8/CFDrone](https://github.com/songge8/CF-Drone) , We respect the copyright of the original author, if there is any infringement, please send issues
 ### Statement
 This warehouse is distributed under the GPLv3 license.Upstream warehouse [songge8 / CF-Drone] (https://github.com/songge8/CF-Drone)May refer to or be derived from [okalachev/flix]( https://github.com/okalachev/flix), according to [okalachev/flix maintainer] (https://github.com/okalachev)In [songge8/cf-drone/issues/1](https://github.com/songge8/CF-Drone/issues/1) The upstream warehouse has not been explicitly authorized, and this warehouse cannot verify the authenticity of the allegations, nor can it express an opinion on this matter. The author of this warehouse does not guarantee the copyright relationship between the two, nor does he know whether the upstream warehouse exists, only to explain and describe the objective facts, please distinguish and respect the copyright and labor achievements of the author.
+
+- In README.md, if there is any ambiguity between Chinese and English, please refer to the Chinese version.
+- 在本文件中，如果中文与英文存在任何歧义，请以中文版本为准。
