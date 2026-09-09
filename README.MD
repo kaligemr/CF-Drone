@@ -2,9 +2,9 @@
 
 <p align="center">
   <img src="https://github.com/okalachev/flix/blob/master/docs/img/flix.svg" width=180 alt="Flix logo"><br>
+  <b>Flix - 琛光</b> — 基于ESP32的开源四旋翼机飞控
 </p>
 
-# ESP32无人机飞控固件
 * 该仓库仅为个人学习使用，无经营性。
 * 提交很随意，想push就push，有bug或者代码写一半也会提交，请勿直接使用仓库代码！
 
