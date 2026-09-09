@@ -26,14 +26,17 @@ bool isUsingWebRC();
 void setupLED() {
 	pinMode(BOARD_LED_PIN, OUTPUT);
 	digitalWrite(BOARD_LED_PIN, BOARD_LED_INVERTED ? HIGH : LOW); // 初始熄灭
+	//                                    条件     ? 值A  : 值B
+	//                          false 高电平点亮, true 低电平点亮
 }
 
 void setLED(bool on) {
 	static bool state = false;
 	if (on == state) {
-		return; // don't call digitalWrite if the state is the same
+		return; // 如果[你想让LED变成什么状态]:on与当前状态state相同，则直接跳过
 	}
 	digitalWrite(BOARD_LED_PIN, (on ^ BOARD_LED_INVERTED) ? HIGH : LOW);
+	//                              ^ 逻辑异或：如果LED是反向的，则取反
 	state = on;
 }
 
