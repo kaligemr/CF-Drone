@@ -26,7 +26,7 @@ bool isUsingWebRC();
 void setupLED() {
 	pinMode(BOARD_LED_PIN, OUTPUT);
 	digitalWrite(BOARD_LED_PIN, BOARD_LED_INVERTED ? HIGH : LOW); // 初始熄灭
-	//                                    条件     ? 值A  : 值B
+	//                                    条件     ? 成立  : 不成立
 	//                          false 高电平点亮, true 低电平点亮
 }
 
@@ -36,7 +36,7 @@ void setLED(bool on) {
 		return; // 如果[你想让LED变成什么状态]:on与当前状态state相同，则直接跳过
 	}
 	digitalWrite(BOARD_LED_PIN, (on ^ BOARD_LED_INVERTED) ? HIGH : LOW);
-	//                              ^ 逻辑异或：如果LED是反向的，则取反
+	//                              ^ 逻辑异或，自动处理高低电平
 	state = on;
 }
 
@@ -49,7 +49,9 @@ void blinkLED() {
 // 未解锁 / 解锁怠速 → L1（3.4V）
 bool batteryAlertActive() {
 	if (batteryVoltage <= VBAT_ABSENT_THRESHOLD) return false;
-	bool flying = armed && thrustTarget >= 0.15f;
+	// 电池未接入，忽略所有告警
+	bool flying = armed && thrustTarget >= 0.15f;  
+	// 飞行中判定：解锁且推力≥0.15
 	if (flying) return batteryVoltage < VBAT_LOW_THRESHOLD;   // L2：飞行中
 	else        return batteryVoltage < VBAT_WARN_THRESHOLD;   // L1：未解锁/怠速
 }
