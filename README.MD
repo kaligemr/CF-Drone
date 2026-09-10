@@ -2,7 +2,7 @@
 
 <p align="center">
   <img src="https://github.com/okalachev/flix/blob/master/docs/img/flix.svg" width=180 alt="Flix logo"><br>
-  <b>Flix - 琛光</b> — 基于ESP32的开源四旋翼机飞控
+  <a href="https://github.com/okalachev/flix"><b>Flix</b></a> <b>+</b> <a href="https://github.com/songge8/CF-Drone"><b>琛光</b></a> ———— 基于ESP32的开源四旋翼机飞控
 </p>
 
 * 该仓库仅为个人学习使用，无经营性。
