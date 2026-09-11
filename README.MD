@@ -8,6 +8,9 @@
 * 该仓库仅为个人学习使用，无经营性。
 * 提交很随意，想push就push，有bug或者代码写一半也会提交，请勿直接使用仓库代码！
 
+## 仓库结构
+- 本仓库包含[CF-Drone](https://github.com/kaligemr/CF-Drone/blob/main/CF-Drone)和[flix](https://github.com/kaligemr/CF-Drone/blob/main/flix)两个项目文件夹
+
 ## 版权
 - 本项目遵循GPL v3或更高版本，CF-Drone文件夹fork自[songge8/CF-Drone](https://github.com/songge8/CF-Drone)
 - 本项目代码包含 [okalachev/flix仓库（无许可证）](https://github.com/okalachev/flix) 的代码，我们目前已经获得该仓库所有者的授权。
