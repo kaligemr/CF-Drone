@@ -8,21 +8,19 @@
 * 该仓库仅为个人学习使用，无经营性。
 * 提交很随意，想push就push，有bug或者代码写一半也会提交，请勿直接使用仓库代码！
 
-## 适配硬件
-* 已适配ESP32/ESP32-S3
-* 支持6500/9250姿态传感器
-* 完美适配琛光E1系列无人机
-## 上游信息
-* 嘉立创开源平台工程链接：https://oshwhub.com/songge8/project_qqqyfdkm
-* 原B站视频：[45元成本手搓无人机，硬件+源码全开源，照着做就能飞！](https://www.bilibili.com/video/BV18ho4BKEzt)
+## 仓库结构
+- 本仓库包含[CF-Drone](https://github.com/kaligemr/CF-Drone/blob/main/CF-Drone)和[flix](https://github.com/kaligemr/CF-Drone/blob/main/flix)两个项目文件夹
+
+## 版权
+- 本项目遵循GPL v3或更高版本，CF-Drone文件夹fork自[songge8/CF-Drone](https://github.com/songge8/CF-Drone)
 - 本项目代码包含 [okalachev/flix仓库（无许可证）](https://github.com/okalachev/flix) 的代码，我们目前已经获得该仓库所有者的授权。
 ## 更新日志
 内容见 [NOTICE](https://github.com/kaligemr/CF-Drone/blob/main/NOTICE)
 ## 关于许可证和版权
 - SPDX-License-Identifier: GPL-3.0-or-later
-- 本项目遵循GPL v3或更高版本，fork自[songge8/CF-Drone](https://github.com/songge8/CF-Drone)，我们尊重原作者版权，如有侵权请发issues
+- 本项目遵循GPL v3或更高版本，fork自[songge8/CF-Drone](https://github.com/songge8/CF-Drone)
 ### 声明​
-本仓库基于 GPLv3 许可证分发。上游仓库[songge8/CF-Drone](https://github.com/songge8/CF-Drone)可能参考或衍生自[okalachev/flix](https://github.com/okalachev/flix)，据[okalachev/flix 维护者](https://github.com/okalachev)在 [songge8/CF-Drone/issues/1](https://github.com/songge8/CF-Drone/issues/1) 中的指控，上游仓库未获其明确授权，我们无法核实其真实性，亦不就此表态。本仓库作者不对两个之间的版权关系作任何保证，也不确定上游仓库是否存在此行为，仅在此说明，阐述客观事实，请各位自行分辨，尊重作者的版权和劳动成果。
+本仓库CF-Drone文件夹基于 GPLv3 许可证分发，其上游仓库[songge8/CF-Drone](https://github.com/songge8/CF-Drone)可能参考或衍生自[okalachev/flix](https://github.com/okalachev/flix)，据[okalachev/flix 维护者](https://github.com/okalachev)在 [songge8/CF-Drone/issues/1](https://github.com/songge8/CF-Drone/issues/1) 中的指控，上游仓库未获其明确授权，我们无法核实其真实性，亦不就此表态。本仓库作者不对两个之间的版权关系作任何保证，也不确定上游仓库是否存在此行为，仅在此说明，阐述客观事实，我们应该尊重作者的版权和劳动成果。
 
 ## English:
 ## About licenses and copyrights
